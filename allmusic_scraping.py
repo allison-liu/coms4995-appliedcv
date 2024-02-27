@@ -2,12 +2,11 @@
 from pyquery import PyQuery as pq
 import requests
 import json
-import billboard
 import re
 import time
 import datetime
 import sys
-import pymysql.cursors
+# import pymysql.cursors
 import difflib
 from fuzzywuzzy import fuzz
 
@@ -42,7 +41,8 @@ def song_search(song, num_results):
         return {'error': req.text}
 
     d = pq(req.text)
-    songs = d('ul.search-results li.song')
+    print("inside scraper", song)
+    songs = d('div#resultsContainer div.song')
     num_to_get = min(num_results, len(songs))
     song_list = []
     for song in songs[:num_to_get]:
@@ -118,4 +118,5 @@ def song_to_dict(song):
         })
 
     song_dict['composers'] = composer_list
+    
     return song_dict
